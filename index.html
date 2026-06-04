@@ -23,7 +23,6 @@
             padding: 20px;
         }
 
-        /* Tema Claro */
         body.light {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
@@ -73,7 +72,6 @@
             color: #92400e;
         }
 
-        /* Tema Escuro */
         body.dark {
             background: linear-gradient(135deg, #0f0c29 0%, #1a1a2e 100%);
         }
@@ -169,7 +167,6 @@
             color: #fecaca;
         }
 
-        /* Container - Tamanho reduzido e centralizado */
         .container {
             max-width: 1000px;
             width: 100%;
@@ -183,7 +180,6 @@
             position: relative;
         }
 
-        /* Layout de duas colunas */
         .two-columns {
             display: flex;
             gap: 30px;
@@ -206,7 +202,6 @@
             align-items: stretch;
         }
 
-        /* Botão Toggle Tema */
         .theme-toggle {
             position: absolute;
             top: 20px;
@@ -239,7 +234,6 @@
             transform: scale(1.05);
         }
 
-        /* Header */
         .header {
             text-align: center;
             margin-bottom: 24px;
@@ -268,7 +262,6 @@
             font-size: 13px;
         }
 
-        /* Abas */
         .tabs {
             display: flex;
             gap: 10px;
@@ -311,7 +304,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Inputs */
         .input-group {
             margin-bottom: 18px;
         }
@@ -385,7 +377,6 @@
             appearance: textfield;
         }
 
-        /* Caixa de Previsão */
         .prediction-box {
             padding: 14px;
             border-radius: 18px;
@@ -412,7 +403,6 @@
             line-height: 1.4;
         }
 
-        /* Info Box Grau C */
         .info-box {
             padding: 12px;
             border-radius: 14px;
@@ -421,7 +411,6 @@
             line-height: 1.4;
         }
 
-        /* Botões */
         .btn-primary {
             width: 100%;
             padding: 12px;
@@ -470,7 +459,6 @@
             background: #f9fafb;
         }
 
-        /* Card de Resultado */
         .result-card {
             border-radius: 28px;
             padding: 24px 16px;
@@ -556,59 +544,27 @@
         body.light .footer { color: rgba(255, 255, 255, 0.75); }
         body.dark .footer { color: rgba(255, 255, 255, 0.5); }
 
-        /* Responsivo */
         @media (max-width: 850px) {
-            body {
-                padding: 16px;
-            }
-            .premium-card {
-                padding: 20px 24px;
-            }
-            .two-columns {
-                flex-direction: column;
-                align-items: center;
-                gap: 20px;
-            }
-            .left-column, .right-column {
-                max-width: 100%;
-                width: 100%;
-            }
+            body { padding: 16px; }
+            .premium-card { padding: 20px 24px; }
+            .two-columns { flex-direction: column; align-items: center; gap: 20px; }
+            .left-column, .right-column { max-width: 100%; width: 100%; }
             h1 { font-size: 24px; }
-            .score-circle {
-                width: 110px;
-                height: 110px;
-            }
-            .score-value {
-                font-size: 42px;
-            }
-            .result-card {
-                min-height: auto;
-            }
-            .tab {
-                font-size: 13px;
-                padding: 8px 12px;
-            }
+            .score-circle { width: 110px; height: 110px; }
+            .score-value { font-size: 42px; }
+            .result-card { min-height: auto; }
+            .tab { font-size: 13px; padding: 8px 12px; }
         }
 
         @media (max-width: 480px) {
-            .premium-card {
-                padding: 16px 18px;
-            }
+            .premium-card { padding: 16px 18px; }
             h1 { font-size: 22px; }
             .badge { font-size: 9px; padding: 4px 12px; }
             .tab { font-size: 11px; padding: 6px 8px; gap: 4px; }
             .prediction-value { font-size: 20px; }
-            .score-circle {
-                width: 90px;
-                height: 90px;
-            }
-            .score-value {
-                font-size: 34px;
-            }
-            .status-badge {
-                font-size: 14px;
-                padding: 6px 16px;
-            }
+            .score-circle { width: 90px; height: 90px; }
+            .score-value { font-size: 34px; }
+            .status-badge { font-size: 14px; padding: 6px 16px; }
         }
     </style>
 </head>
@@ -637,7 +593,6 @@
             </div>
 
             <div class="two-columns">
-                <!-- Coluna Esquerda - Inputs -->
                 <div class="left-column">
                     <div id="presencial-content" class="tab-content active">
                         <div class="input-group">
@@ -728,7 +683,6 @@
                     </div>
                 </div>
 
-                <!-- Coluna Direita - Resultado -->
                 <div class="right-column">
                     <div class="result-card" id="resultadoCard">
                         <div class="result-placeholder">
@@ -818,6 +772,7 @@
                     
                     if (!isNaN(notaB) && notaB >= 0 && notaB <= 10) {
                         const mediaAtual = (notaA + 2 * notaB) / 3;
+                        // CORREÇÃO: média >= 6 é aprovado (não apenas > 6)
                         if (mediaAtual >= 6) {
                             presencialPredictionNote.innerHTML = `Com Grau A = ${notaA} e Grau B = ${notaB}, sua média é ${mediaAtual.toFixed(2)} - APROVADO! ✅`;
                             presencialInfoBox.style.display = 'none';
@@ -854,6 +809,7 @@
             
             let status = '', statusClass = '', icon = '', mensagem = '';
             
+            // CORREÇÃO: média >= 6 é aprovado
             if (notaFinal >= 6) {
                 status = 'APROVADO';
                 statusClass = 'status-aprovado';
@@ -917,6 +873,7 @@
                     
                     if (!isNaN(notaB) && notaB >= 0 && notaB <= 10) {
                         const mediaAtual = (notaA * 0.3 + notaB * 0.7);
+                        // CORREÇÃO: média >= 6 é aprovado
                         if (mediaAtual >= 6) {
                             eadPredictionNote.innerHTML = `Com Grau A = ${notaA} e Grau B = ${notaB}, sua média é ${mediaAtual.toFixed(2)} - APROVADO! ✅`;
                             eadInfoBox.style.display = 'none';
@@ -953,6 +910,7 @@
             
             let status = '', statusClass = '', icon = '', mensagem = '';
             
+            // CORREÇÃO: média >= 6 é aprovado
             if (notaFinal >= 6) {
                 status = 'APROVADO';
                 statusClass = 'status-aprovado';
