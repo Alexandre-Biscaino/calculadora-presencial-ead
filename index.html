@@ -807,7 +807,13 @@
             let notaB = parseFloat(presencialNotaB.value);
             
             if (isNaN(notaA) || isNaN(notaB)) {
-                alert('⚠️ Por favor, preencha ambas as notas!');
+                const resultCard = document.getElementById('resultadoCard');
+                resultCard.innerHTML = `
+                    <div class="result-placeholder" style="color: #ef4444;">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <p><strong>Atenção!</strong><br>Por favor, preencha ambas as notas para calcular.</p>
+                    </div>
+                `;
                 return;
             }
             
@@ -910,7 +916,13 @@
             let notaB = parseFloat(eadNotaB.value);
             
             if (isNaN(notaA) || isNaN(notaB)) {
-                alert('⚠️ Por favor, preencha ambas as notas!');
+                const resultCard = document.getElementById('resultadoCard');
+                resultCard.innerHTML = `
+                    <div class="result-placeholder" style="color: #ef4444;">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <p><strong>Atenção!</strong><br>Por favor, preencha ambas as notas para calcular.</p>
+                    </div>
+                `;
                 return;
             }
             
@@ -985,35 +997,11 @@
             }
         }
 
-        // CORREÇÃO: Só executa o cálculo se ambos os campos tiverem valores válidos
-        presencialNotaA.addEventListener('keypress', (e) => { 
-            if (e.key === 'Enter') {
-                const notaA = parseFloat(presencialNotaA.value);
-                const notaB = parseFloat(presencialNotaB.value);
-                if (!isNaN(notaA) && !isNaN(notaB)) calcularPresencial();
-            }
-        });
-        presencialNotaB.addEventListener('keypress', (e) => { 
-            if (e.key === 'Enter') {
-                const notaA = parseFloat(presencialNotaA.value);
-                const notaB = parseFloat(presencialNotaB.value);
-                if (!isNaN(notaA) && !isNaN(notaB)) calcularPresencial();
-            }
-        });
-        eadNotaA.addEventListener('keypress', (e) => { 
-            if (e.key === 'Enter') {
-                const notaA = parseFloat(eadNotaA.value);
-                const notaB = parseFloat(eadNotaB.value);
-                if (!isNaN(notaA) && !isNaN(notaB)) calcularEAD();
-            }
-        });
-        eadNotaB.addEventListener('keypress', (e) => { 
-            if (e.key === 'Enter') {
-                const notaA = parseFloat(eadNotaA.value);
-                const notaB = parseFloat(eadNotaB.value);
-                if (!isNaN(notaA) && !isNaN(notaB)) calcularEAD();
-            }
-        });
+        // Executa a função ao pressionar Enter e deixa a validação visual acontecer na UI
+        presencialNotaA.addEventListener('keypress', (e) => { if (e.key === 'Enter') calcularPresencial(); });
+        presencialNotaB.addEventListener('keypress', (e) => { if (e.key === 'Enter') calcularPresencial(); });
+        eadNotaA.addEventListener('keypress', (e) => { if (e.key === 'Enter') calcularEAD(); });
+        eadNotaB.addEventListener('keypress', (e) => { if (e.key === 'Enter') calcularEAD(); });
     </script>
 </body>
 </html>
