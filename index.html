@@ -701,7 +701,8 @@
     <script>
         // Função auxiliar para arredondar com 2 casas decimais e evitar erros de floating point
         function arredondarNota(valor) {
-            return Math.round(valor * 100) / 100;
+            // Força a resolução da precisão pela string nativa do JS antes de converter para Número
+            return Number(Number(valor).toFixed(2));
         }
 
         function validarNota(input) {
@@ -860,7 +861,8 @@
             const notaB = parseFloat(eadNotaB.value);
             
             if (!isNaN(notaA) && notaA >= 0 && notaA <= 10) {
-                let necessarioB = (6 - (notaA * 0.3)) / 0.7;
+                // MATEMÁTICA DE INTEIROS: Evita o bug de ponto flutuante na raiz
+                let necessarioB = (60 - (notaA * 3)) / 7;
                 necessarioB = arredondarNota(necessarioB);
                 
                 if (necessarioB <= 0) {
@@ -869,7 +871,7 @@
                     eadInfoBox.style.display = 'none';
                 } else if (necessarioB > 10) {
                     eadPredictionValue.innerHTML = '❌ IMPOSSÍVEL';
-                    eadPredictionNote.innerHTML = `Mesmo com nota 10 no Grau B, sua média seria ${arredondarNota(notaA * 0.3 + 10 * 0.7)}. Você precisa do Grau C.`;
+                    eadPredictionNote.innerHTML = `Mesmo com nota 10 no Grau B, sua média seria ${arredondarNota((notaA * 3 + 70) / 10)}. Você precisa do Grau C.`;
                     eadInfoBox.style.display = 'block';
                     eadInfoText.innerHTML = `⚠️ Com Grau A = ${notaA}, mesmo nota máxima no Grau B (10) não aprova. Faça o Grau C para substituir o Grau B!`;
                 } else {
@@ -877,7 +879,8 @@
                     eadPredictionNote.innerHTML = `Você precisa de ${necessarioB} no Grau B para ser aprovado(a).`;
                     
                     if (!isNaN(notaB) && notaB >= 0 && notaB <= 10) {
-                        let mediaAtual = (notaA * 0.3 + notaB * 0.7);
+                        // MATEMÁTICA DE INTEIROS APLICADA AQUI
+                        let mediaAtual = (notaA * 3 + notaB * 7) / 10;
                         mediaAtual = arredondarNota(mediaAtual);
                         
                         if (mediaAtual >= 6) {
@@ -911,7 +914,7 @@
                 return;
             }
             
-            let notaFinal = (notaA * 0.3 + notaB * 0.7);
+            let notaFinal = (notaA * 3 + notaB * 7) / 10;
             notaFinal = arredondarNota(notaFinal);
             
             let status = '', statusClass = '', icon = '', mensagem = '';
@@ -927,7 +930,7 @@
                 status = 'REPROVADO';
                 statusClass = 'status-reprovado';
                 icon = '📚';
-                let necessarioC = (6 - (notaA * 0.3)) / 0.7;
+                let necessarioC = (60 - (notaA * 3)) / 7;
                 necessarioC = arredondarNota(necessarioC);
                 if (necessarioC <= 10) {
                     mensagem = `Faltaram ${arredondarNota(6 - notaFinal)} pontos. Faça o Grau C (precisa de ${necessarioC}) para substituir o Grau B.`;
