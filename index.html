@@ -985,10 +985,35 @@
             }
         }
 
-        presencialNotaA.addEventListener('keypress', (e) => { if (e.key === 'Enter') calcularPresencial(); });
-        presencialNotaB.addEventListener('keypress', (e) => { if (e.key === 'Enter') calcularPresencial(); });
-        eadNotaA.addEventListener('keypress', (e) => { if (e.key === 'Enter') calcularEAD(); });
-        eadNotaB.addEventListener('keypress', (e) => { if (e.key === 'Enter') calcularEAD(); });
+        // CORREÇÃO: Só executa o cálculo se ambos os campos tiverem valores válidos
+        presencialNotaA.addEventListener('keypress', (e) => { 
+            if (e.key === 'Enter') {
+                const notaA = parseFloat(presencialNotaA.value);
+                const notaB = parseFloat(presencialNotaB.value);
+                if (!isNaN(notaA) && !isNaN(notaB)) calcularPresencial();
+            }
+        });
+        presencialNotaB.addEventListener('keypress', (e) => { 
+            if (e.key === 'Enter') {
+                const notaA = parseFloat(presencialNotaA.value);
+                const notaB = parseFloat(presencialNotaB.value);
+                if (!isNaN(notaA) && !isNaN(notaB)) calcularPresencial();
+            }
+        });
+        eadNotaA.addEventListener('keypress', (e) => { 
+            if (e.key === 'Enter') {
+                const notaA = parseFloat(eadNotaA.value);
+                const notaB = parseFloat(eadNotaB.value);
+                if (!isNaN(notaA) && !isNaN(notaB)) calcularEAD();
+            }
+        });
+        eadNotaB.addEventListener('keypress', (e) => { 
+            if (e.key === 'Enter') {
+                const notaA = parseFloat(eadNotaA.value);
+                const notaB = parseFloat(eadNotaB.value);
+                if (!isNaN(notaA) && !isNaN(notaB)) calcularEAD();
+            }
+        });
     </script>
 </body>
 </html>
