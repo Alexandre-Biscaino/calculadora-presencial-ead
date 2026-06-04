@@ -699,6 +699,11 @@
     </div>
 
     <script>
+        // Função auxiliar para arredondar com 2 casas decimais e evitar erros de floating point
+        function arredondarNota(valor) {
+            return Math.round(valor * 100) / 100;
+        }
+
         function validarNota(input) {
             let valor = parseFloat(input.value);
             
@@ -755,7 +760,7 @@
             
             if (!isNaN(notaA) && notaA >= 0 && notaA <= 10) {
                 let necessarioB = (18 - notaA) / 2;
-                necessarioB = Math.round(necessarioB * 100) / 100;
+                necessarioB = arredondarNota(necessarioB);
                 
                 if (necessarioB <= 0) {
                     presencialPredictionValue.innerHTML = '✅ JÁ APROVADO';
@@ -763,7 +768,7 @@
                     presencialInfoBox.style.display = 'none';
                 } else if (necessarioB > 10) {
                     presencialPredictionValue.innerHTML = '❌ IMPOSSÍVEL';
-                    presencialPredictionNote.innerHTML = `Mesmo com nota 10 no Grau B, sua média seria ${((notaA + 20)/3).toFixed(2)}. Você precisa do Grau C.`;
+                    presencialPredictionNote.innerHTML = `Mesmo com nota 10 no Grau B, sua média seria ${arredondarNota((notaA + 20)/3)}. Você precisa do Grau C.`;
                     presencialInfoBox.style.display = 'block';
                     presencialInfoText.innerHTML = `⚠️ Com Grau A = ${notaA}, mesmo nota máxima no Grau B (10) não aprova. Faça o Grau C para substituir o Grau B!`;
                 } else {
@@ -771,15 +776,16 @@
                     presencialPredictionNote.innerHTML = `Você precisa de ${necessarioB} no Grau B para ser aprovado(a).`;
                     
                     if (!isNaN(notaB) && notaB >= 0 && notaB <= 10) {
-                        const mediaAtual = (notaA + 2 * notaB) / 3;
-                        // CORREÇÃO: média >= 6 é aprovado
+                        let mediaAtual = (notaA + 2 * notaB) / 3;
+                        mediaAtual = arredondarNota(mediaAtual);
+                        
                         if (mediaAtual >= 6) {
-                            presencialPredictionNote.innerHTML = `Com Grau A = ${notaA} e Grau B = ${notaB}, sua média é ${mediaAtual.toFixed(2)} - APROVADO! ✅`;
+                            presencialPredictionNote.innerHTML = `Com Grau A = ${notaA} e Grau B = ${notaB}, sua média é ${mediaAtual} - APROVADO! ✅`;
                             presencialInfoBox.style.display = 'none';
                         } else {
-                            presencialPredictionNote.innerHTML = `Com Grau A = ${notaA} e Grau B = ${notaB}, sua média é ${mediaAtual.toFixed(2)} - REPROVADO.`;
+                            presencialPredictionNote.innerHTML = `Com Grau A = ${notaA} e Grau B = ${notaB}, sua média é ${mediaAtual} - REPROVADO.`;
                             presencialInfoBox.style.display = 'block';
-                            presencialInfoText.innerHTML = `📝 Sua média atual é ${mediaAtual.toFixed(2)} (abaixo de 6). Faça o Grau C para substituir o Grau B (nota ${notaB}) e tentar aprovação!`;
+                            presencialInfoText.innerHTML = `📝 Sua média atual é ${mediaAtual} (abaixo de 6). Faça o Grau C para substituir o Grau B (nota ${notaB}) e tentar aprovação!`;
                         }
                     } else {
                         presencialInfoBox.style.display = 'none';
@@ -805,11 +811,10 @@
             }
             
             let notaFinal = (notaA * 1 + notaB * 2) / 3;
-            notaFinal = Math.round(notaFinal * 100) / 100;
+            notaFinal = arredondarNota(notaFinal);
             
             let status = '', statusClass = '', icon = '', mensagem = '';
             
-            // CORREÇÃO: média >= 6 é aprovado
             if (notaFinal >= 6) {
                 status = 'APROVADO';
                 statusClass = 'status-aprovado';
@@ -822,11 +827,11 @@
                 statusClass = 'status-reprovado';
                 icon = '📚';
                 let necessarioC = (18 - notaA) / 2;
-                necessarioC = Math.round(necessarioC * 100) / 100;
+                necessarioC = arredondarNota(necessarioC);
                 if (necessarioC <= 10) {
-                    mensagem = `Faltaram ${(6 - notaFinal).toFixed(2)} pontos. Faça o Grau C (precisa de ${necessarioC}) para substituir o Grau B.`;
+                    mensagem = `Faltaram ${arredondarNota(6 - notaFinal)} pontos. Faça o Grau C (precisa de ${necessarioC}) para substituir o Grau B.`;
                 } else {
-                    mensagem = `Faltaram ${(6 - notaFinal).toFixed(2)} pontos. Mesmo com Grau C máximo (10), não atingiria a média. Refaça o Grau A.`;
+                    mensagem = `Faltaram ${arredondarNota(6 - notaFinal)} pontos. Mesmo com Grau C máximo (10), não atingiria a média. Refaça o Grau A.`;
                 }
             }
             
@@ -856,7 +861,7 @@
             
             if (!isNaN(notaA) && notaA >= 0 && notaA <= 10) {
                 let necessarioB = (6 - (notaA * 0.3)) / 0.7;
-                necessarioB = Math.round(necessarioB * 100) / 100;
+                necessarioB = arredondarNota(necessarioB);
                 
                 if (necessarioB <= 0) {
                     eadPredictionValue.innerHTML = '✅ JÁ APROVADO';
@@ -864,7 +869,7 @@
                     eadInfoBox.style.display = 'none';
                 } else if (necessarioB > 10) {
                     eadPredictionValue.innerHTML = '❌ IMPOSSÍVEL';
-                    eadPredictionNote.innerHTML = `Mesmo com nota 10 no Grau B, sua média seria ${(notaA * 0.3 + 10 * 0.7).toFixed(2)}. Você precisa do Grau C.`;
+                    eadPredictionNote.innerHTML = `Mesmo com nota 10 no Grau B, sua média seria ${arredondarNota(notaA * 0.3 + 10 * 0.7)}. Você precisa do Grau C.`;
                     eadInfoBox.style.display = 'block';
                     eadInfoText.innerHTML = `⚠️ Com Grau A = ${notaA}, mesmo nota máxima no Grau B (10) não aprova. Faça o Grau C para substituir o Grau B!`;
                 } else {
@@ -872,15 +877,16 @@
                     eadPredictionNote.innerHTML = `Você precisa de ${necessarioB} no Grau B para ser aprovado(a).`;
                     
                     if (!isNaN(notaB) && notaB >= 0 && notaB <= 10) {
-                        const mediaAtual = (notaA * 0.3 + notaB * 0.7);
-                        // CORREÇÃO: média >= 6 é aprovado
+                        let mediaAtual = (notaA * 0.3 + notaB * 0.7);
+                        mediaAtual = arredondarNota(mediaAtual);
+                        
                         if (mediaAtual >= 6) {
-                            eadPredictionNote.innerHTML = `Com Grau A = ${notaA} e Grau B = ${notaB}, sua média é ${mediaAtual.toFixed(2)} - APROVADO! ✅`;
+                            eadPredictionNote.innerHTML = `Com Grau A = ${notaA} e Grau B = ${notaB}, sua média é ${mediaAtual} - APROVADO! ✅`;
                             eadInfoBox.style.display = 'none';
                         } else {
-                            eadPredictionNote.innerHTML = `Com Grau A = ${notaA} e Grau B = ${notaB}, sua média é ${mediaAtual.toFixed(2)} - REPROVADO.`;
+                            eadPredictionNote.innerHTML = `Com Grau A = ${notaA} e Grau B = ${notaB}, sua média é ${mediaAtual} - REPROVADO.`;
                             eadInfoBox.style.display = 'block';
-                            eadInfoText.innerHTML = `📝 Sua média atual é ${mediaAtual.toFixed(2)} (abaixo de 6). Faça o Grau C para substituir o Grau B (nota ${notaB}) e tentar aprovação!`;
+                            eadInfoText.innerHTML = `📝 Sua média atual é ${mediaAtual} (abaixo de 6). Faça o Grau C para substituir o Grau B (nota ${notaB}) e tentar aprovação!`;
                         }
                     } else {
                         eadInfoBox.style.display = 'none';
@@ -906,11 +912,10 @@
             }
             
             let notaFinal = (notaA * 0.3 + notaB * 0.7);
-            notaFinal = Math.round(notaFinal * 100) / 100;
+            notaFinal = arredondarNota(notaFinal);
             
             let status = '', statusClass = '', icon = '', mensagem = '';
             
-            // CORREÇÃO: média >= 6 é aprovado
             if (notaFinal >= 6) {
                 status = 'APROVADO';
                 statusClass = 'status-aprovado';
@@ -923,11 +928,11 @@
                 statusClass = 'status-reprovado';
                 icon = '📚';
                 let necessarioC = (6 - (notaA * 0.3)) / 0.7;
-                necessarioC = Math.round(necessarioC * 100) / 100;
+                necessarioC = arredondarNota(necessarioC);
                 if (necessarioC <= 10) {
-                    mensagem = `Faltaram ${(6 - notaFinal).toFixed(2)} pontos. Faça o Grau C (precisa de ${necessarioC}) para substituir o Grau B.`;
+                    mensagem = `Faltaram ${arredondarNota(6 - notaFinal)} pontos. Faça o Grau C (precisa de ${necessarioC}) para substituir o Grau B.`;
                 } else {
-                    mensagem = `Faltaram ${(6 - notaFinal).toFixed(2)} pontos. Mesmo com Grau C máximo (10), não atingiria a média. Refaça o Grau A.`;
+                    mensagem = `Faltaram ${arredondarNota(6 - notaFinal)} pontos. Mesmo com Grau C máximo (10), não atingiria a média. Refaça o Grau A.`;
                 }
             }
             
