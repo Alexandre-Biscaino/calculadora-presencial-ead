@@ -7,980 +7,146 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            transition: background 0.3s ease;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-
-        body.light {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
-
-        body.light .premium-card {
-            background: rgba(255, 255, 255, 0.98);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.3);
-        }
-
-        body.light .label-text,
-        body.light .subtitle {
-            color: #374151;
-        }
-
-        body.light h1 {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        body.light .tab {
-            background: #f3f4f6;
-            color: #6b7280;
-        }
-
-        body.light .tab.active {
-            background: white;
-            color: #667eea;
-            border-bottom: 2px solid #667eea;
-        }
-
-        body.light .result-card {
-            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-        }
-
-        body.light .prediction-box {
-            background: #f0fdf4;
-            border-left: 4px solid #10b981;
-        }
-
-        body.light .prediction-title { color: #065f46; }
-        body.light .prediction-note { color: #4b5563; }
-
-        body.light .info-box {
-            background: #fef3c7;
-            border-left: 4px solid #f59e0b;
-            color: #92400e;
-        }
-
-        body.dark {
-            background: linear-gradient(135deg, #0f0c29 0%, #1a1a2e 100%);
-        }
-
-        body.dark .premium-card {
-            background: #1e293b;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-        }
-
-        body.dark .label-text,
-        body.dark .subtitle,
-        body.dark .prediction-note,
-        body.dark .result-message,
-        body.dark .info-box {
-            color: #e2e8f0;
-        }
-
-        body.dark h1 {
-            background: linear-gradient(135deg, #c084fc 0%, #a78bfa 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        body.dark input {
-            background: #0f172a;
-            border-color: #334155;
-            color: #f1f5f9;
-        }
-
-        body.dark input:focus {
-            border-color: #a78bfa;
-        }
-
-        body.dark .prediction-box {
-            background: #0f172a;
-            border-left: 4px solid #34d399;
-        }
-
-        body.dark .prediction-title { color: #86efac; }
-        body.dark .prediction-value { color: #4ade80; }
-
-        body.dark .info-box {
-            background: #451a03;
-            border-left: 4px solid #fbbf24;
-            color: #fde68a;
-        }
-
-        body.dark .result-card {
-            background: #0f172a;
-        }
-
-        body.dark .btn-secondary {
-            color: #cbd5e1;
-            border-color: #475569;
-        }
-
-        body.dark .btn-secondary:hover {
-            background: #334155;
-        }
-
-        body.dark .peso {
-            background: #334155;
-            color: #cbd5e1;
-        }
-
-        body.dark .tab {
-            background: #0f172a;
-            color: #94a3b8;
-        }
-
-        body.dark .tab.active {
-            background: #1e293b;
-            color: #a78bfa;
-            border-bottom: 2px solid #a78bfa;
-        }
-
-        body.dark .result-card h3 {
-            color: #94a3b8;
-        }
-
-        body.dark .score-circle {
-            background: #1e293b;
-        }
-
-        body.dark .status-aprovado {
-            background: #065f46;
-            color: #d1fae5;
-        }
-
-        body.dark .status-reprovado {
-            background: #7f1d1d;
-            color: #fecaca;
-        }
-
-        .container {
-            max-width: 1000px;
-            width: 100%;
-            margin: 0 auto;
-        }
-
-        .premium-card {
-            border-radius: 40px;
-            padding: 28px 32px;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .two-columns {
-            display: flex;
-            gap: 30px;
-            flex-wrap: wrap;
-            justify-content: center;
-            align-items: stretch;
-        }
-
-        .left-column {
-            flex: 1;
-            min-width: 300px;
-            max-width: 420px;
-        }
-
-        .right-column {
-            flex: 0.8;
-            min-width: 280px;
-            max-width: 340px;
-            display: flex;
-            align-items: stretch;
-        }
-
-        .theme-toggle {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: rgba(102, 126, 234, 0.1);
-            border: none;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            transition: all 0.3s;
-            z-index: 10;
-        }
-
-        body.light .theme-toggle {
-            background: #f3f4f6;
-            color: #1f2937;
-        }
-
-        body.dark .theme-toggle {
-            background: #334155;
-            color: #fbbf24;
-        }
-
-        .theme-toggle:hover {
-            transform: scale(1.05);
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 24px;
-        }
-
-        .badge {
-            display: inline-block;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 6px 16px;
-            border-radius: 100px;
-            font-size: 11px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: white;
-            margin-bottom: 14px;
-        }
-
-        h1 {
-            font-size: 28px;
-            font-weight: 800;
-            margin-bottom: 6px;
-        }
-
-        .subtitle {
-            font-size: 13px;
-        }
-
-        .tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 24px;
-            background: rgba(0, 0, 0, 0.05);
-            border-radius: 50px;
-            padding: 5px;
-        }
-
-        .tab {
-            flex: 1;
-            text-align: center;
-            padding: 10px 16px;
-            border-radius: 40px;
-            font-weight: 700;
-            font-size: 14px;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-        }
-
-        .tab:hover {
-            transform: translateY(-1px);
-        }
-
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-            animation: fadeIn 0.3s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .input-group {
-            margin-bottom: 18px;
-        }
-
-        .input-label {
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-            margin-bottom: 6px;
-        }
-
-        .label-text {
-            font-weight: 600;
-            font-size: 14px;
-        }
-
-        .peso {
-            font-size: 11px;
-            padding: 3px 8px;
-            border-radius: 20px;
-            font-weight: 500;
-        }
-
-        body.light .peso {
-            background: #e5e7eb;
-            color: #4b5563;
-        }
-
-        .input-wrapper {
-            position: relative;
-        }
-
-        .input-wrapper i {
-            position: absolute;
-            left: 14px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #9ca3af;
-            font-size: 16px;
-        }
-
-        input {
-            width: 100%;
-            padding: 12px 14px 12px 44px;
-            border: 2px solid;
-            border-radius: 24px;
-            font-size: 15px;
-            font-weight: 500;
-            transition: all 0.3s;
-            font-family: 'Inter', sans-serif;
-        }
-
-        body.light input {
-            border-color: #e5e7eb;
-            background: white;
-        }
-
-        input:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-
-        input[type=number]::-webkit-inner-spin-button,
-        input[type=number]::-webkit-outer-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
-        input[type=number] {
-            -moz-appearance: textfield;
-            appearance: textfield;
-        }
-
-        .prediction-box {
-            padding: 14px;
-            border-radius: 18px;
-            margin-bottom: 18px;
-        }
-
-        .prediction-title {
-            font-size: 11px;
-            font-weight: 600;
-            margin-bottom: 6px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .prediction-value {
-            font-size: 26px;
-            font-weight: 800;
-            margin-bottom: 4px;
-        }
-
-        .prediction-note {
-            font-size: 11px;
-            line-height: 1.4;
-        }
-
-        .info-box {
-            padding: 12px;
-            border-radius: 14px;
-            margin-bottom: 18px;
-            font-size: 12px;
-            line-height: 1.4;
-        }
-
-        .btn-primary {
-            width: 100%;
-            padding: 12px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            border-radius: 40px;
-            font-size: 14px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            margin-bottom: 10px;
-        }
-
-        .btn-primary:hover {
-            transform: scale(0.98);
-            box-shadow: 0 10px 25px -5px rgba(102, 126, 234, 0.4);
-        }
-
-        .btn-secondary {
-            width: 100%;
-            padding: 10px;
-            background: transparent;
-            border: 2px solid;
-            border-radius: 40px;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-        }
-
-        body.light .btn-secondary {
-            border-color: #e5e7eb;
-            color: #6b7280;
-        }
-
-        body.light .btn-secondary:hover {
-            background: #f9fafb;
-        }
-
-        .result-card {
-            border-radius: 28px;
-            padding: 24px 16px;
-            text-align: center;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
-        }
-
-        .result-card h3 {
-            font-size: 16px;
-            margin-bottom: 20px;
-            font-weight: 600;
-            letter-spacing: 1px;
-        }
-
-        body.light .result-card h3 {
-            color: #4b5563;
-        }
-
-        .score-circle {
-            width: 130px;
-            height: 130px;
-            margin: 0 auto 16px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.15);
-        }
-
-        body.light .score-circle {
-            background: white;
-        }
-
-        .score-value {
-            font-size: 48px;
-            font-weight: 800;
-        }
-
-        .status-badge {
-            display: inline-block;
-            padding: 8px 22px;
-            border-radius: 100px;
-            font-weight: 700;
-            font-size: 18px;
-            margin: 12px 0;
-        }
-
-        .result-message {
-            font-size: 13px;
-            margin-top: 8px;
-            line-height: 1.4;
-        }
-
-        .result-placeholder {
-            text-align: center;
-            padding: 30px 16px;
-        }
-
-        .result-placeholder i {
-            font-size: 44px;
-            margin-bottom: 12px;
-            display: block;
-        }
-
-        body.light .result-placeholder {
-            color: #9ca3af;
-        }
-
-        body.dark .result-placeholder {
-            color: #64748b;
-        }
-
-        .footer {
-            text-align: center;
-            margin-top: 24px;
-            font-size: 11px;
-        }
-
-        body.light .footer { color: rgba(255, 255, 255, 0.75); }
-        body.dark .footer { color: rgba(255, 255, 255, 0.5); }
-
-        @media (max-width: 850px) {
-            body { padding: 16px; }
-            .premium-card { padding: 20px 24px; }
-            .two-columns { flex-direction: column; align-items: center; gap: 20px; }
-            .left-column, .right-column { max-width: 100%; width: 100%; }
-            h1 { font-size: 24px; }
-            .score-circle { width: 110px; height: 110px; }
-            .score-value { font-size: 42px; }
-            .result-card { min-height: auto; }
-            .tab { font-size: 13px; padding: 8px 12px; }
-        }
-
-        @media (max-width: 480px) {
-            .premium-card { padding: 16px 18px; }
-            h1 { font-size: 22px; }
-            .badge { font-size: 9px; padding: 4px 12px; }
-            .tab { font-size: 11px; padding: 6px 8px; gap: 4px; }
-            .prediction-value { font-size: 20px; }
-            .score-circle { width: 90px; height: 90px; }
-            .score-value { font-size: 34px; }
-            .status-badge { font-size: 14px; padding: 6px 16px; }
-        }
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Inter',sans-serif;transition:background .3s ease;min-height:100vh;display:flex;justify-content:center;align-items:center;padding:20px}
+        body.light{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%)}
+        body.light .premium-card{background:rgba(255,255,255,.98);box-shadow:0 25px 50px -12px rgba(0,0,0,.3)}
+        body.light .label-text,body.light .subtitle{color:#374151}
+        body.light h1{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+        body.light .tab{background:#f3f4f6;color:#6b7280}
+        body.light .tab.active{background:#fff;color:#667eea;border-bottom:2px solid #667eea}
+        body.light .result-card{background:linear-gradient(135deg,#f8fafc 0%,#f1f5f9 100%)}
+        body.light .prediction-box{background:#f0fdf4;border-left:4px solid #10b981}
+        body.light .prediction-title{color:#065f46}
+        body.light .prediction-note{color:#4b5563}
+        body.light .info-box{background:#fef3c7;border-left:4px solid #f59e0b;color:#92400e}
+        body.dark{background:linear-gradient(135deg,#0f0c29 0%,#1a1a2e 100%)}
+        body.dark .premium-card{background:#1e293b;box-shadow:0 25px 50px -12px rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.08)}
+        body.dark .label-text,body.dark .subtitle,body.dark .prediction-note,body.dark .result-message,body.dark .info-box{color:#e2e8f0}
+        body.dark h1{background:linear-gradient(135deg,#c084fc 0%,#a78bfa 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+        body.dark input{background:#0f172a;border-color:#334155;color:#f1f5f9}
+        body.dark input:focus{border-color:#a78bfa}
+        body.dark .prediction-box{background:#0f172a;border-left:4px solid #34d399}
+        body.dark .prediction-title{color:#86efac}
+        body.dark .prediction-value{color:#4ade80}
+        body.dark .info-box{background:#451a03;border-left:4px solid #fbbf24;color:#fde68a}
+        body.dark .result-card{background:#0f172a}
+        body.dark .btn-secondary{color:#cbd5e1;border-color:#475569}
+        body.dark .btn-secondary:hover{background:#334155}
+        body.dark .peso{background:#334155;color:#cbd5e1}
+        body.dark .tab{background:#0f172a;color:#94a3b8}
+        body.dark .tab.active{background:#1e293b;color:#a78bfa;border-bottom:2px solid #a78bfa}
+        body.dark .result-card h3{color:#94a3b8}
+        body.dark .score-circle{background:#1e293b}
+        body.dark .status-aprovado{background:#065f46;color:#d1fae5}
+        body.dark .status-reprovado{background:#7f1d1d;color:#fecaca}
+        .container{max-width:1000px;width:100%;margin:0 auto}
+        .premium-card{border-radius:40px;padding:28px 32px;transition:all .3s ease;position:relative}
+        .two-columns{display:flex;gap:30px;flex-wrap:wrap;justify-content:center;align-items:stretch}
+        .left-column{flex:1;min-width:300px;max-width:420px}
+        .right-column{flex:.8;min-width:280px;max-width:340px;display:flex;align-items:stretch}
+        .theme-toggle{position:absolute;top:20px;right:20px;background:rgba(102,126,234,.1);border:none;width:40px;height:40px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;transition:all .3s;z-index:10}
+        body.light .theme-toggle{background:#f3f4f6;color:#1f2937}
+        body.dark .theme-toggle{background:#334155;color:#fbbf24}
+        .theme-toggle:hover{transform:scale(1.05)}
+        .header{text-align:center;margin-bottom:24px}
+        .badge{display:inline-block;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);padding:6px 16px;border-radius:100px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:#fff;margin-bottom:14px}
+        h1{font-size:28px;font-weight:800;margin-bottom:6px}
+        .subtitle{font-size:13px}
+        .tabs{display:flex;gap:10px;margin-bottom:24px;background:rgba(0,0,0,.05);border-radius:50px;padding:5px}
+        .tab{flex:1;text-align:center;padding:10px 16px;border-radius:40px;font-weight:700;font-size:14px;cursor:pointer;transition:all .3s;display:flex;align-items:center;justify-content:center;gap:6px}
+        .tab:hover{transform:translateY(-1px)}
+        .tab-content{display:none}
+        .tab-content.active{display:block;animation:fadeIn .3s ease}
+        @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+        .input-group{margin-bottom:18px}
+        .input-label{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px}
+        .label-text{font-weight:600;font-size:14px}
+        .peso{font-size:11px;padding:3px 8px;border-radius:20px;font-weight:500}
+        body.light .peso{background:#e5e7eb;color:#4b5563}
+        .input-wrapper{position:relative}
+        .input-wrapper i{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:#9ca3af;font-size:16px}
+        input{width:100%;padding:12px 14px 12px 44px;border:2px solid;border-radius:24px;font-size:15px;font-weight:500;transition:all .3s;font-family:'Inter',sans-serif}
+        body.light input{border-color:#e5e7eb;background:#fff}
+        input:focus{outline:none;border-color:#667eea;box-shadow:0 0 0 3px rgba(102,126,234,.1)}
+        input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+        input[type=number]{-moz-appearance:textfield;appearance:textfield}
+        .prediction-box{padding:14px;border-radius:18px;margin-bottom:18px}
+        .prediction-title{font-size:11px;font-weight:600;margin-bottom:6px;display:flex;align-items:center;gap:6px}
+        .prediction-value{font-size:26px;font-weight:800;margin-bottom:4px}
+        .prediction-note{font-size:11px;line-height:1.4}
+        .info-box{padding:12px;border-radius:14px;margin-bottom:18px;font-size:12px;line-height:1.4}
+        .btn-primary{width:100%;padding:12px;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:#fff;border:none;border-radius:40px;font-size:14px;font-weight:700;cursor:pointer;transition:all .3s;display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:10px}
+        .btn-primary:hover{transform:scale(.98);box-shadow:0 10px 25px -5px rgba(102,126,234,.4)}
+        .btn-secondary{width:100%;padding:10px;background:transparent;border:2px solid;border-radius:40px;font-size:13px;font-weight:600;cursor:pointer;transition:all .3s;display:flex;align-items:center;justify-content:center;gap:6px}
+        body.light .btn-secondary{border-color:#e5e7eb;color:#6b7280}
+        body.light .btn-secondary:hover{background:#f9fafb}
+        .result-card{border-radius:28px;padding:24px 16px;text-align:center;width:100%;display:flex;flex-direction:column;justify-content:center;box-shadow:0 10px 25px -5px rgba(0,0,0,.05)}
+        .result-card h3{font-size:16px;margin-bottom:20px;font-weight:600;letter-spacing:1px}
+        body.light .result-card h3{color:#4b5563}
+        .score-circle{width:130px;height:130px;margin:0 auto 16px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 15px 35px -10px rgba(0,0,0,.15)}
+        body.light .score-circle{background:#fff}
+        .score-value{font-size:48px;font-weight:800}
+        .status-badge{display:inline-block;padding:8px 22px;border-radius:100px;font-weight:700;font-size:18px;margin:12px 0}
+        .result-message{font-size:13px;margin-top:8px;line-height:1.4}
+        .result-placeholder{text-align:center;padding:30px 16px}
+        .result-placeholder i{font-size:44px;margin-bottom:12px;display:block}
+        body.light .result-placeholder{color:#9ca3af}
+        body.dark .result-placeholder{color:#64748b}
+        .footer{text-align:center;margin-top:24px;font-size:11px}
+        body.light .footer{color:rgba(255,255,255,.75)}
+        body.dark .footer{color:rgba(255,255,255,.5)}
+        @media(max-width:850px){body{padding:16px}.premium-card{padding:20px 24px}.two-columns{flex-direction:column;align-items:center;gap:20px}.left-column,.right-column{max-width:100%;width:100%}h1{font-size:24px}.score-circle{width:110px;height:110px}.score-value{font-size:42px}.result-card{min-height:auto}.tab{font-size:13px;padding:8px 12px}}
+        @media(max-width:480px){.premium-card{padding:16px 18px}h1{font-size:22px}.badge{font-size:9px;padding:4px 12px}.tab{font-size:11px;padding:6px 8px;gap:4px}.prediction-value{font-size:20px}.score-circle{width:90px;height:90px}.score-value{font-size:34px}.status-badge{font-size:14px;padding:6px 16px}}
     </style>
 </head>
 <body class="light">
     <div class="container">
         <div class="premium-card">
-            <button class="theme-toggle" onclick="toggleTheme()">
-                <i class="fas fa-moon"></i>
-            </button>
-
-            <div class="header">
-                <div class="badge">
-                    <i class="fas fa-graduation-cap"></i> PREMIUM
-                </div>
-                <h1>Grade Calculator</h1>
-                <div class="subtitle">Presencial | EAD</div>
-            </div>
-
-            <div class="tabs">
-                <div class="tab active" onclick="switchTab('presencial')">
-                    <i class="fas fa-building"></i> Presencial
-                </div>
-                <div class="tab" onclick="switchTab('ead')">
-                    <i class="fas fa-laptop"></i> EAD
-                </div>
-            </div>
-
+            <button class="theme-toggle" onclick="toggleTheme()"><i class="fas fa-moon"></i></button>
+            <div class="header"><div class="badge"><i class="fas fa-graduation-cap"></i> PREMIUM</div><h1>Grade Calculator</h1><div class="subtitle">Presencial | EAD</div></div>
+            <div class="tabs"><div class="tab active" onclick="switchTab('presencial')"><i class="fas fa-building"></i> Presencial</div><div class="tab" onclick="switchTab('ead')"><i class="fas fa-laptop"></i> EAD</div></div>
             <div class="two-columns">
                 <div class="left-column">
                     <div id="presencial-content" class="tab-content active">
-                        <div class="input-group">
-                            <div class="input-label">
-                                <span class="label-text"><i class="fas fa-star"></i> Grau A</span>
-                                <span class="peso">Peso 1</span>
-                            </div>
-                            <div class="input-wrapper">
-                                <i class="fas fa-pen"></i>
-                                <input type="number" id="presencialNotaA" step="any" placeholder="0 a 10" autocomplete="off" oninput="validarNota(this)">
-                            </div>
-                        </div>
-
-                        <div class="prediction-box">
-                            <div class="prediction-title">
-                                <i class="fas fa-chart-line"></i> PREVISÃO EM TEMPO REAL
-                            </div>
-                            <div class="prediction-value" id="presencialPredictionValue">--</div>
-                            <div class="prediction-note" id="presencialPredictionNote">Digite o Grau A para ver quanto precisa no Grau B</div>
-                        </div>
-
-                        <div class="input-group">
-                            <div class="input-label">
-                                <span class="label-text"><i class="fas fa-star"></i> Grau B</span>
-                                <span class="peso">Peso 2</span>
-                            </div>
-                            <div class="input-wrapper">
-                                <i class="fas fa-chart-simple"></i>
-                                <input type="number" id="presencialNotaB" step="any" placeholder="0 a 10" autocomplete="off" oninput="validarNota(this)">
-                            </div>
-                        </div>
-
-                        <div class="info-box" id="presencialInfoBox" style="display: none;">
-                            <i class="fas fa-sync-alt"></i> <strong>Grau C Disponível</strong><br>
-                            <span id="presencialInfoText"></span>
-                        </div>
-
-                        <button class="btn-primary" onclick="calcularPresencial()">
-                            <i class="fas fa-calculator"></i> Calcular Nota Final
-                        </button>
-                        <button class="btn-secondary" onclick="limparPresencial()">
-                            <i class="fas fa-eraser"></i> Limpar Campos
-                        </button>
+                        <div class="input-group"><div class="input-label"><span class="label-text"><i class="fas fa-star"></i> Grau A</span><span class="peso">Peso 1</span></div><div class="input-wrapper"><i class="fas fa-pen"></i><input type="number" id="presencialNotaA" step="any" placeholder="0 a 10" autocomplete="off" oninput="validarNota(this)"></div></div>
+                        <div class="prediction-box"><div class="prediction-title"><i class="fas fa-chart-line"></i> PREVISÃO EM TEMPO REAL</div><div class="prediction-value" id="presencialPredictionValue">--</div><div class="prediction-note" id="presencialPredictionNote">Digite o Grau A para ver quanto precisa no Grau B</div></div>
+                        <div class="input-group"><div class="input-label"><span class="label-text"><i class="fas fa-star"></i> Grau B</span><span class="peso">Peso 2</span></div><div class="input-wrapper"><i class="fas fa-chart-simple"></i><input type="number" id="presencialNotaB" step="any" placeholder="0 a 10" autocomplete="off" oninput="validarNota(this)"></div></div>
+                        <div class="info-box" id="presencialInfoBox" style="display:none"><i class="fas fa-sync-alt"></i> <strong>Grau C Disponível</strong><br><span id="presencialInfoText"></span></div>
+                        <button class="btn-primary" onclick="calcularPresencial()"><i class="fas fa-calculator"></i> Calcular Nota Final</button>
+                        <button class="btn-secondary" onclick="limparPresencial()"><i class="fas fa-eraser"></i> Limpar Campos</button>
                     </div>
-
                     <div id="ead-content" class="tab-content">
-                        <div class="input-group">
-                            <div class="input-label">
-                                <span class="label-text"><i class="fas fa-star"></i> Grau A</span>
-                                <span class="peso">Peso 0,3 (30%)</span>
-                            </div>
-                            <div class="input-wrapper">
-                                <i class="fas fa-pen"></i>
-                                <input type="number" id="eadNotaA" step="any" placeholder="0 a 10" autocomplete="off" oninput="validarNota(this)">
-                            </div>
-                        </div>
-
-                        <div class="prediction-box">
-                            <div class="prediction-title">
-                                <i class="fas fa-chart-line"></i> PREVISÃO EM TEMPO REAL
-                            </div>
-                            <div class="prediction-value" id="eadPredictionValue">--</div>
-                            <div class="prediction-note" id="eadPredictionNote">Digite o Grau A para ver quanto precisa no Grau B</div>
-                        </div>
-
-                        <div class="input-group">
-                            <div class="input-label">
-                                <span class="label-text"><i class="fas fa-star"></i> Grau B</span>
-                                <span class="peso">Peso 0,7 (70%)</span>
-                            </div>
-                            <div class="input-wrapper">
-                                <i class="fas fa-chart-simple"></i>
-                                <input type="number" id="eadNotaB" step="any" placeholder="0 a 10" autocomplete="off" oninput="validarNota(this)">
-                            </div>
-                        </div>
-
-                        <div class="info-box" id="eadInfoBox" style="display: none;">
-                            <i class="fas fa-sync-alt"></i> <strong>Grau C Disponível</strong><br>
-                            <span id="eadInfoText"></span>
-                        </div>
-
-                        <button class="btn-primary" onclick="calcularEAD()">
-                            <i class="fas fa-calculator"></i> Calcular Nota Final
-                        </button>
-                        <button class="btn-secondary" onclick="limparEAD()">
-                            <i class="fas fa-eraser"></i> Limpar Campos
-                        </button>
+                        <div class="input-group"><div class="input-label"><span class="label-text"><i class="fas fa-star"></i> Grau A</span><span class="peso">Peso 0,3 (30%)</span></div><div class="input-wrapper"><i class="fas fa-pen"></i><input type="number" id="eadNotaA" step="any" placeholder="0 a 10" autocomplete="off" oninput="validarNota(this)"></div></div>
+                        <div class="prediction-box"><div class="prediction-title"><i class="fas fa-chart-line"></i> PREVISÃO EM TEMPO REAL</div><div class="prediction-value" id="eadPredictionValue">--</div><div class="prediction-note" id="eadPredictionNote">Digite o Grau A para ver quanto precisa no Grau B</div></div>
+                        <div class="input-group"><div class="input-label"><span class="label-text"><i class="fas fa-star"></i> Grau B</span><span class="peso">Peso 0,7 (70%)</span></div><div class="input-wrapper"><i class="fas fa-chart-simple"></i><input type="number" id="eadNotaB" step="any" placeholder="0 a 10" autocomplete="off" oninput="validarNota(this)"></div></div>
+                        <div class="info-box" id="eadInfoBox" style="display:none"><i class="fas fa-sync-alt"></i> <strong>Grau C Disponível</strong><br><span id="eadInfoText"></span></div>
+                        <button class="btn-primary" onclick="calcularEAD()"><i class="fas fa-calculator"></i> Calcular Nota Final</button>
+                        <button class="btn-secondary" onclick="limparEAD()"><i class="fas fa-eraser"></i> Limpar Campos</button>
                     </div>
                 </div>
-
-                <div class="right-column">
-                    <div class="result-card" id="resultadoCard">
-                        <div class="result-placeholder">
-                            <i class="fas fa-chart-line"></i>
-                            <p>Preencha as notas<br>e clique em "Calcular"</p>
-                        </div>
-                    </div>
-                </div>
+                <div class="right-column"><div class="result-card" id="resultadoCard"><div class="result-placeholder"><i class="fas fa-chart-line"></i><p>Preencha as notas<br>e clique em "Calcular"</p></div></div></div>
             </div>
         </div>
-        <div class="footer">
-            <i class="fas fa-chart-line"></i> Sistema Premium | Grau C substitui o Grau B | Notas 0 a 10
-        </div>
+        <div class="footer"><i class="fas fa-chart-line"></i> Sistema Premium | Grau C substitui o Grau B | Notas 0 a 10</div>
     </div>
-
     <script>
-        function validarNota(input) {
-            let valor = parseFloat(input.value);
-            
-            if (input.value === '') return;
-            if (isNaN(valor)) { input.value = ''; return; }
-            if (valor < 0) input.value = 0;
-            if (valor > 10) input.value = 10;
-            
-            if (input.value.includes('.')) {
-                let partes = input.value.split('.');
-                if (partes[1] && partes[1].length > 2) {
-                    input.value = parseFloat(input.value).toFixed(2);
-                }
-            }
-        }
-
-        function atualizarResultadoUI(notaFinal, status, statusClass, icon, mensagem) {
-            const resultCard = document.getElementById('resultadoCard');
-            resultCard.innerHTML = `
-                <h3><i class="fas fa-chart-simple"></i> RESULTADO FINAL</h3>
-                <div class="score-circle">
-                    <div class="score-value" style="color: ${notaFinal >= 6 ? '#10b981' : '#ef4444'}">${notaFinal}</div>
-                </div>
-                <div class="status-badge ${statusClass}">
-                    ${icon} ${status} ${icon}
-                </div>
-                <div class="result-message">
-                    ${mensagem}
-                </div>
-            `;
-        }
-
-        function resetResultadoUI() {
-            const resultCard = document.getElementById('resultadoCard');
-            resultCard.innerHTML = `
-                <div class="result-placeholder">
-                    <i class="fas fa-chart-line"></i>
-                    <p>Aguardando cálculo...</p>
-                </div>
-            `;
-        }
-
-        // ==================== PRESENCIAL ====================
-        const presencialNotaA = document.getElementById('presencialNotaA');
-        const presencialNotaB = document.getElementById('presencialNotaB');
-        const presencialPredictionValue = document.getElementById('presencialPredictionValue');
-        const presencialPredictionNote = document.getElementById('presencialPredictionNote');
-        const presencialInfoBox = document.getElementById('presencialInfoBox');
-        const presencialInfoText = document.getElementById('presencialInfoText');
-
-        function atualizarPrevisaoPresencial() {
-            const notaA = parseFloat(presencialNotaA.value);
-            const notaB = parseFloat(presencialNotaB.value);
-            
-            if (!isNaN(notaA) && notaA >= 0 && notaA <= 10) {
-                let necessarioB = (18 - notaA) / 2;
-                necessarioB = Math.round(necessarioB * 100) / 100;
-                
-                if (necessarioB <= 0) {
-                    presencialPredictionValue.innerHTML = '✅ JÁ APROVADO';
-                    presencialPredictionNote.innerHTML = `Com ${notaA} no Grau A, você já atingiu a média mínima.`;
-                    presencialInfoBox.style.display = 'none';
-                } else if (necessarioB > 10) {
-                    presencialPredictionValue.innerHTML = '❌ IMPOSSÍVEL';
-                    presencialPredictionNote.innerHTML = `Mesmo com nota 10 no Grau B, sua média seria ${((notaA + 20)/3).toFixed(2)}. Você precisa do Grau C.`;
-                    presencialInfoBox.style.display = 'block';
-                    presencialInfoText.innerHTML = `⚠️ Com Grau A = ${notaA}, mesmo nota máxima no Grau B (10) não aprova. Faça o Grau C para substituir o Grau B!`;
-                } else {
-                    presencialPredictionValue.innerHTML = `${necessarioB}`;
-                    presencialPredictionNote.innerHTML = `Você precisa de ${necessarioB} no Grau B para ser aprovado(a).`;
-                    
-                    if (!isNaN(notaB) && notaB >= 0 && notaB <= 10) {
-                        const mediaAtual = (notaA + 2 * notaB) / 3;
-                        // CORREÇÃO: média >= 6 é aprovado (não apenas > 6)
-                        if (mediaAtual >= 6) {
-                            presencialPredictionNote.innerHTML = `Com Grau A = ${notaA} e Grau B = ${notaB}, sua média é ${mediaAtual.toFixed(2)} - APROVADO! ✅`;
-                            presencialInfoBox.style.display = 'none';
-                        } else {
-                            presencialPredictionNote.innerHTML = `Com Grau A = ${notaA} e Grau B = ${notaB}, sua média é ${mediaAtual.toFixed(2)} - REPROVADO.`;
-                            presencialInfoBox.style.display = 'block';
-                            presencialInfoText.innerHTML = `📝 Sua média atual é ${mediaAtual.toFixed(2)} (abaixo de 6). Faça o Grau C para substituir o Grau B (nota ${notaB}) e tentar aprovação!`;
-                        }
-                    } else {
-                        presencialInfoBox.style.display = 'none';
-                    }
-                }
-            } else {
-                presencialPredictionValue.innerHTML = '--';
-                presencialPredictionNote.innerHTML = 'Digite o Grau A para ver quanto precisa no Grau B';
-                presencialInfoBox.style.display = 'none';
-            }
-        }
-
-        presencialNotaA.addEventListener('input', atualizarPrevisaoPresencial);
-        presencialNotaB.addEventListener('input', atualizarPrevisaoPresencial);
-
-        function calcularPresencial() {
-            let notaA = parseFloat(presencialNotaA.value);
-            let notaB = parseFloat(presencialNotaB.value);
-            
-            if (isNaN(notaA) || isNaN(notaB)) {
-                alert('⚠️ Por favor, preencha ambas as notas!');
-                return;
-            }
-            
-            let notaFinal = (notaA * 1 + notaB * 2) / 3;
-            notaFinal = Math.round(notaFinal * 100) / 100;
-            
-            let status = '', statusClass = '', icon = '', mensagem = '';
-            
-            // CORREÇÃO: média >= 6 é aprovado
-            if (notaFinal >= 6) {
-                status = 'APROVADO';
-                statusClass = 'status-aprovado';
-                icon = '🎓';
-                if (notaFinal >= 9) mensagem = 'Excelente! Desempenho excepcional!';
-                else if (notaFinal >= 7.5) mensagem = 'Muito bom! Continue assim!';
-                else mensagem = 'Aprovado! Bom trabalho!';
-            } else {
-                status = 'REPROVADO';
-                statusClass = 'status-reprovado';
-                icon = '📚';
-                let necessarioC = (18 - notaA) / 2;
-                necessarioC = Math.round(necessarioC * 100) / 100;
-                if (necessarioC <= 10) {
-                    mensagem = `Faltaram ${(6 - notaFinal).toFixed(2)} pontos. Faça o Grau C (precisa de ${necessarioC}) para substituir o Grau B.`;
-                } else {
-                    mensagem = `Faltaram ${(6 - notaFinal).toFixed(2)} pontos. Mesmo com Grau C máximo (10), não atingiria a média. Refaça o Grau A.`;
-                }
-            }
-            
-            atualizarResultadoUI(notaFinal, status, statusClass, icon, mensagem);
-        }
-
-        function limparPresencial() {
-            presencialNotaA.value = '';
-            presencialNotaB.value = '';
-            presencialPredictionValue.innerHTML = '--';
-            presencialPredictionNote.innerHTML = 'Digite o Grau A para ver quanto precisa no Grau B';
-            presencialInfoBox.style.display = 'none';
-            resetResultadoUI();
-        }
-
-        // ==================== EAD ====================
-        const eadNotaA = document.getElementById('eadNotaA');
-        const eadNotaB = document.getElementById('eadNotaB');
-        const eadPredictionValue = document.getElementById('eadPredictionValue');
-        const eadPredictionNote = document.getElementById('eadPredictionNote');
-        const eadInfoBox = document.getElementById('eadInfoBox');
-        const eadInfoText = document.getElementById('eadInfoText');
-
-        function atualizarPrevisaoEAD() {
-            const notaA = parseFloat(eadNotaA.value);
-            const notaB = parseFloat(eadNotaB.value);
-            
-            if (!isNaN(notaA) && notaA >= 0 && notaA <= 10) {
-                let necessarioB = (6 - (notaA * 0.3)) / 0.7;
-                necessarioB = Math.round(necessarioB * 100) / 100;
-                
-                if (necessarioB <= 0) {
-                    eadPredictionValue.innerHTML = '✅ JÁ APROVADO';
-                    eadPredictionNote.innerHTML = `Com ${notaA} no Grau A, você já atingiu a média mínima.`;
-                    eadInfoBox.style.display = 'none';
-                } else if (necessarioB > 10) {
-                    eadPredictionValue.innerHTML = '❌ IMPOSSÍVEL';
-                    eadPredictionNote.innerHTML = `Mesmo com nota 10 no Grau B, sua média seria ${(notaA * 0.3 + 10 * 0.7).toFixed(2)}. Você precisa do Grau C.`;
-                    eadInfoBox.style.display = 'block';
-                    eadInfoText.innerHTML = `⚠️ Com Grau A = ${notaA}, mesmo nota máxima no Grau B (10) não aprova. Faça o Grau C para substituir o Grau B!`;
-                } else {
-                    eadPredictionValue.innerHTML = `${necessarioB}`;
-                    eadPredictionNote.innerHTML = `Você precisa de ${necessarioB} no Grau B para ser aprovado(a).`;
-                    
-                    if (!isNaN(notaB) && notaB >= 0 && notaB <= 10) {
-                        const mediaAtual = (notaA * 0.3 + notaB * 0.7);
-                        // CORREÇÃO: média >= 6 é aprovado
-                        if (mediaAtual >= 6) {
-                            eadPredictionNote.innerHTML = `Com Grau A = ${notaA} e Grau B = ${notaB}, sua média é ${mediaAtual.toFixed(2)} - APROVADO! ✅`;
-                            eadInfoBox.style.display = 'none';
-                        } else {
-                            eadPredictionNote.innerHTML = `Com Grau A = ${notaA} e Grau B = ${notaB}, sua média é ${mediaAtual.toFixed(2)} - REPROVADO.`;
-                            eadInfoBox.style.display = 'block';
-                            eadInfoText.innerHTML = `📝 Sua média atual é ${mediaAtual.toFixed(2)} (abaixo de 6). Faça o Grau C para substituir o Grau B (nota ${notaB}) e tentar aprovação!`;
-                        }
-                    } else {
-                        eadInfoBox.style.display = 'none';
-                    }
-                }
-            } else {
-                eadPredictionValue.innerHTML = '--';
-                eadPredictionNote.innerHTML = 'Digite o Grau A para ver quanto precisa no Grau B';
-                eadInfoBox.style.display = 'none';
-            }
-        }
-
-        eadNotaA.addEventListener('input', atualizarPrevisaoEAD);
-        eadNotaB.addEventListener('input', atualizarPrevisaoEAD);
-
-        function calcularEAD() {
-            let notaA = parseFloat(eadNotaA.value);
-            let notaB = parseFloat(eadNotaB.value);
-            
-            if (isNaN(notaA) || isNaN(notaB)) {
-                alert('⚠️ Por favor, preencha ambas as notas!');
-                return;
-            }
-            
-            let notaFinal = (notaA * 0.3 + notaB * 0.7);
-            notaFinal = Math.round(notaFinal * 100) / 100;
-            
-            let status = '', statusClass = '', icon = '', mensagem = '';
-            
-            // CORREÇÃO: média >= 6 é aprovado
-            if (notaFinal >= 6) {
-                status = 'APROVADO';
-                statusClass = 'status-aprovado';
-                icon = '🎓';
-                if (notaFinal >= 9) mensagem = 'Excelente! Desempenho excepcional!';
-                else if (notaFinal >= 7.5) mensagem = 'Muito bom! Continue assim!';
-                else mensagem = 'Aprovado! Bom trabalho!';
-            } else {
-                status = 'REPROVADO';
-                statusClass = 'status-reprovado';
-                icon = '📚';
-                let necessarioC = (6 - (notaA * 0.3)) / 0.7;
-                necessarioC = Math.round(necessarioC * 100) / 100;
-                if (necessarioC <= 10) {
-                    mensagem = `Faltaram ${(6 - notaFinal).toFixed(2)} pontos. Faça o Grau C (precisa de ${necessarioC}) para substituir o Grau B.`;
-                } else {
-                    mensagem = `Faltaram ${(6 - notaFinal).toFixed(2)} pontos. Mesmo com Grau C máximo (10), não atingiria a média. Refaça o Grau A.`;
-                }
-            }
-            
-            atualizarResultadoUI(notaFinal, status, statusClass, icon, mensagem);
-        }
-
-        function limparEAD() {
-            eadNotaA.value = '';
-            eadNotaB.value = '';
-            eadPredictionValue.innerHTML = '--';
-            eadPredictionNote.innerHTML = 'Digite o Grau A para ver quanto precisa no Grau B';
-            eadInfoBox.style.display = 'none';
-            resetResultadoUI();
-        }
-
-        // ==================== GERAL ====================
-        function switchTab(tab) {
-            const tabs = document.querySelectorAll('.tab');
-            const contents = document.querySelectorAll('.tab-content');
-            
-            tabs.forEach(t => t.classList.remove('active'));
-            contents.forEach(c => c.classList.remove('active'));
-            
-            if (tab === 'presencial') {
-                tabs[0].classList.add('active');
-                document.getElementById('presencial-content').classList.add('active');
-                resetResultadoUI();
-            } else {
-                tabs[1].classList.add('active');
-                document.getElementById('ead-content').classList.add('active');
-                resetResultadoUI();
-            }
-        }
-
-        function toggleTheme() {
-            const body = document.body;
-            const themeToggle = document.querySelector('.theme-toggle i');
-            
-            if (body.classList.contains('light')) {
-                body.classList.remove('light');
-                body.classList.add('dark');
-                themeToggle.className = 'fas fa-sun';
-            } else {
-                body.classList.remove('dark');
-                body.classList.add('light');
-                themeToggle.className = 'fas fa-moon';
-            }
-        }
-
-        presencialNotaA.addEventListener('keypress', (e) => { if (e.key === 'Enter') calcularPresencial(); });
-        presencialNotaB.addEventListener('keypress', (e) => { if (e.key === 'Enter') calcularPresencial(); });
-        eadNotaA.addEventListener('keypress', (e) => { if (e.key === 'Enter') calcularEAD(); });
-        eadNotaB.addEventListener('keypress', (e) => { if (e.key === 'Enter') calcularEAD(); });
+        function validarNota(i){let v=parseFloat(i.value);if(i.value==='')return;if(isNaN(v)){i.value='';return}if(v<0)i.value=0;if(v>10)i.value=10;if(i.value.includes('.')){let p=i.value.split('.');if(p[1]&&p[1].length>2)i.value=parseFloat(i.value).toFixed(2)}}
+        function atualizarResultadoUI(n,s,sc,ic,m){document.getElementById('resultadoCard').innerHTML=`<h3><i class="fas fa-chart-simple"></i> RESULTADO FINAL</h3><div class="score-circle"><div class="score-value" style="color:${n>=6?'#10b981':'#ef4444'}">${n}</div></div><div class="status-badge ${sc}">${ic} ${s} ${ic}</div><div class="result-message">${m}</div>`}
+        function resetResultadoUI(){document.getElementById('resultadoCard').innerHTML=`<div class="result-placeholder"><i class="fas fa-chart-line"></i><p>Aguardando cálculo...</p></div>`}
+        const pA=document.getElementById('presencialNotaA'),pB=document.getElementById('presencialNotaB'),pPredValue=document.getElementById('presencialPredictionValue'),pPredNote=document.getElementById('presencialPredictionNote'),pInfoBox=document.getElementById('presencialInfoBox'),pInfoText=document.getElementById('presencialInfoText');
+        function atualizarPrevisaoPresencial(){let a=parseFloat(pA.value),b=parseFloat(pB.value);if(!isNaN(a)&&a>=0&&a<=10){let nec=(18-a)/2;nec=Math.round(nec*100)/100;if(nec<=0){pPredValue.innerHTML='✅ JÁ APROVADO';pPredNote.innerHTML=`Com ${a} no Grau A, você já atingiu a média mínima.`;pInfoBox.style.display='none'}else if(nec>10){pPredValue.innerHTML='❌ IMPOSSÍVEL';pPredNote.innerHTML=`Mesmo com nota 10 no Grau B, sua média seria ${((a+20)/3).toFixed(2)}. Você precisa do Grau C.`;pInfoBox.style.display='block';pInfoText.innerHTML=`⚠️ Com Grau A = ${a}, mesmo nota máxima no Grau B (10) não aprova. Faça o Grau C para substituir o Grau B!`}else{pPredValue.innerHTML=`${nec}`;pPredNote.innerHTML=`Você precisa de ${nec} no Grau B para ser aprovado(a).`;if(!isNaN(b)&&b>=0&&b<=10){let m=(a+2*b)/3;if(m>=6){pPredNote.innerHTML=`Com Grau A = ${a} e Grau B = ${b}, sua média é ${m.toFixed(2)} - APROVADO! ✅`;pInfoBox.style.display='none'}else{pPredNote.innerHTML=`Com Grau A = ${a} e Grau B = ${b}, sua média é ${m.toFixed(2)} - REPROVADO.`;pInfoBox.style.display='block';pInfoText.innerHTML=`📝 Sua média atual é ${m.toFixed(2)} (abaixo de 6). Faça o Grau C para substituir o Grau B (nota ${b}) e tentar aprovação!`}}else pInfoBox.style.display='none'}}else{pPredValue.innerHTML='--';pPredNote.innerHTML='Digite o Grau A para ver quanto precisa no Grau B';pInfoBox.style.display='none'}}
+        pA.addEventListener('input',atualizarPrevisaoPresencial);pB.addEventListener('input',atualizarPrevisaoPresencial);
+        function calcularPresencial(){let a=parseFloat(pA.value),b=parseFloat(pB.value);if(isNaN(a)||isNaN(b)){alert('⚠️ Por favor, preencha ambas as notas!');return}let n=(a*1+b*2)/3;n=Math.round(n*100)/100;let s='',sc='',ic='',m='';if(n>=6){s='APROVADO';sc='status-aprovado';ic='🎓';if(n>=9)m='Excelente! Desempenho excepcional!';else if(n>=7.5)m='Muito bom! Continue assim!';else m='Aprovado! Bom trabalho!'}else{s='REPROVADO';sc='status-reprovado';ic='📚';let nec=(18-a)/2;nec=Math.round(nec*100)/100;if(nec<=10)m=`Faltaram ${(6-n).toFixed(2)} pontos. Faça o Grau C (precisa de ${nec}) para substituir o Grau B.`;else m=`Faltaram ${(6-n).toFixed(2)} pontos. Mesmo com Grau C máximo (10), não atingiria a média. Refaça o Grau A.`}atualizarResultadoUI(n,s,sc,ic,m)}
+        function limparPresencial(){pA.value='';pB.value='';pPredValue.innerHTML='--';pPredNote.innerHTML='Digite o Grau A para ver quanto precisa no Grau B';pInfoBox.style.display='none';resetResultadoUI()}
+        const eA=document.getElementById('eadNotaA'),eB=document.getElementById('eadNotaB'),ePredValue=document.getElementById('eadPredictionValue'),ePredNote=document.getElementById('eadPredictionNote'),eInfoBox=document.getElementById('eadInfoBox'),eInfoText=document.getElementById('eadInfoText');
+        function atualizarPrevisaoEAD(){let a=parseFloat(eA.value),b=parseFloat(eB.value);if(!isNaN(a)&&a>=0&&a<=10){let nec=(6-(a*0.3))/0.7;nec=Math.round(nec*100)/100;if(nec<=0){ePredValue.innerHTML='✅ JÁ APROVADO';ePredNote.innerHTML=`Com ${a} no Grau A, você já atingiu a média mínima.`;eInfoBox.style.display='none'}else if(nec>10){ePredValue.innerHTML='❌ IMPOSSÍVEL';ePredNote.innerHTML=`Mesmo com nota 10 no Grau B, sua média seria ${(a*0.3+10*0.7).toFixed(2)}. Você precisa do Grau C.`;eInfoBox.style.display='block';eInfoText.innerHTML=`⚠️ Com Grau A = ${a}, mesmo nota máxima no Grau B (10) não aprova. Faça o Grau C para substituir o Grau B!`}else{ePredValue.innerHTML=`${nec}`;ePredNote.innerHTML=`Você precisa de ${nec} no Grau B para ser aprovado(a).`;if(!isNaN(b)&&b>=0&&b<=10){let m=(a*0.3+b*0.7);if(m>=6){ePredNote.innerHTML=`Com Grau A = ${a} e Grau B = ${b}, sua média é ${m.toFixed(2)} - APROVADO! ✅`;eInfoBox.style.display='none'}else{ePredNote.innerHTML=`Com Grau A = ${a} e Grau B = ${b}, sua média é ${m.toFixed(2)} - REPROVADO.`;eInfoBox.style.display='block';eInfoText.innerHTML=`📝 Sua média atual é ${m.toFixed(2)} (abaixo de 6). Faça o Grau C para substituir o Grau B (nota ${b}) e tentar aprovação!`}}else eInfoBox.style.display='none'}}else{ePredValue.innerHTML='--';ePredNote.innerHTML='Digite o Grau A para ver quanto precisa no Grau B';eInfoBox.style.display='none'}}
+        eA.addEventListener('input',atualizarPrevisaoEAD);eB.addEventListener('input',atualizarPrevisaoEAD);
+        function calcularEAD(){let a=parseFloat(eA.value),b=parseFloat(eB.value);if(isNaN(a)||isNaN(b)){alert('⚠️ Por favor, preencha ambas as notas!');return}let n=(a*0.3+b*0.7);n=Math.round(n*100)/100;let s='',sc='',ic='',m='';if(n>=6){s='APROVADO';sc='status-aprovado';ic='🎓';if(n>=9)m='Excelente! Desempenho excepcional!';else if(n>=7.5)m='Muito bom! Continue assim!';else m='Aprovado! Bom trabalho!'}else{s='REPROVADO';sc='status-reprovado';ic='📚';let nec=(6-(a*0.3))/0.7;nec=Math.round(nec*100)/100;if(nec<=10)m=`Faltaram ${(6-n).toFixed(2)} pontos. Faça o Grau C (precisa de ${nec}) para substituir o Grau B.`;else m=`Faltaram ${(6-n).toFixed(2)} pontos. Mesmo com Grau C máximo (10), não atingiria a média. Refaça o Grau A.`}atualizarResultadoUI(n,s,sc,ic,m)}
+        function limparEAD(){eA.value='';eB.value='';ePredValue.innerHTML='--';ePredNote.innerHTML='Digite o Grau A para ver quanto precisa no Grau B';eInfoBox.style.display='none';resetResultadoUI()}
+        function switchTab(t){document.querySelectorAll('.tab').forEach(a=>a.classList.remove('active'));document.querySelectorAll('.tab-content').forEach(a=>a.classList.remove('active'));if(t==='presencial'){document.querySelectorAll('.tab')[0].classList.add('active');document.getElementById('presencial-content').classList.add('active')}else{document.querySelectorAll('.tab')[1].classList.add('active');document.getElementById('ead-content').classList.add('active')}resetResultadoUI()}
+        function toggleTheme(){let b=document.body,i=document.querySelector('.theme-toggle i');if(b.classList.contains('light')){b.classList.remove('light');b.classList.add('dark');i.className='fas fa-sun'}else{b.classList.remove('dark');b.classList.add('light');i.className='fas fa-moon'}}
+        pA.addEventListener('keypress',e=>{if(e.key==='Enter')calcularPresencial()});pB.addEventListener('keypress',e=>{if(e.key==='Enter')calcularPresencial()});eA.addEventListener('keypress',e=>{if(e.key==='Enter')calcularEAD()});eB.addEventListener('keypress',e=>{if(e.key==='Enter')calcularEAD()});
     </script>
 </body>
 </html>
